@@ -14,6 +14,15 @@ export class App extends React.Component {
 	};
 
 	onAddContact = newContact => {
+		const duplicate = this.state.contacts.find(
+			({ name }) => name.toLowerCase() === newContact.name.toLowerCase()
+		);
+
+		if (duplicate) {
+			alert(`${duplicate.name} is already in contacts`);
+			return;
+		}
+
 		const completeContact = {
 			...newContact,
 			id: `id-${(Math.random() * 1000).toString()}`,
