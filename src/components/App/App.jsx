@@ -33,11 +33,22 @@ export class App extends React.Component {
 		});
 	};
 
+	handleDelete = idToBeDeleted => {
+		this.setState({
+			contacts: this.state.contacts.filter(
+				contact => contact.id !== idToBeDeleted
+			),
+		});
+	};
+
 	render() {
 		return (
 			<section className={css.app__container}>
 				<AddContact onAddContact={this.onAddContact} />
-				<ContactsList data={this.state.contacts} />
+				<ContactsList
+					data={this.state.contacts}
+					handleDelete={this.handleDelete}
+				/>
 			</section>
 		);
 	}

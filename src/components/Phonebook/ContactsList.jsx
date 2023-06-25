@@ -38,6 +38,13 @@ export class ContactsList extends React.Component {
 								.map(item => (
 									<li key={item.id} className={css.contacts__item}>
 										{item.name}: {item.number}
+										<button
+											className={css.contacts__deleteBtn}
+											onClick={() => this.props.handleDelete(item.id)}
+											type="button"
+										>
+											Delete
+										</button>
 									</li>
 								))}
 						</ul>

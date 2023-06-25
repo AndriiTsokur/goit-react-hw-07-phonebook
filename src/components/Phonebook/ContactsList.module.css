@@ -15,7 +15,7 @@
 	gap: 10px;
 	margin-bottom: 20px;
 
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: 500;
 }
 
@@ -34,11 +34,26 @@
 .contacts__empty,
 .contacts__list {
 	margin-block: 0;
+	padding-inline: 10px;
 
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: 500;
 }
 
+.contacts__item {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
 .contacts__item:not(:last-child) {
-	margin-bottom: 5px;
+	margin-bottom: 10px;
+}
+
+.contacts__item::before {
+	content: '\2756';
+}
+
+.contacts__deleteBtn {
+	margin-left: auto;
 }
