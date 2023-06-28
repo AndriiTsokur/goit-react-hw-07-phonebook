@@ -1,5 +1,5 @@
-# goit-react-hw-02_2
+# goit-react-hw-03_1
 
-GoIT Academy: React Section - Home Work No. 2-2 by Andrii Tsokur
+GoIT Academy: React Section - Home Work No. 3-1 by Andrii Tsokur
 
-"Події та стан. Форми"
+"03 - Життєвий цикл компонента. Робота з REST API"
