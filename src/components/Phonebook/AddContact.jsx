@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import css from './AddContact.module.css';
 
 const INITIAL_STATE = {
@@ -57,3 +58,7 @@ export class AddContact extends Component {
 		);
 	}
 }
+
+AddContact.propTypes = {
+	onAddContact: PropTypes.func.isRequired,
+};
