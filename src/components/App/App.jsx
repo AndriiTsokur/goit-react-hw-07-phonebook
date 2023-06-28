@@ -2,7 +2,7 @@ import React from 'react';
 import { AddContact } from '../Phonebook';
 import { ContactsList } from '../Phonebook';
 
-import initialContacts from '../Phonebook/initialContacts.json';
+import defaultContacts from '../Phonebook/defaultContacts.json';
 import css from './App.module.css';
 
 export class App extends React.Component {
@@ -11,16 +11,15 @@ export class App extends React.Component {
 	};
 
 	componentDidMount() {
+		const localData = JSON.parse(localStorage.getItem('contacts'));
+
 		this.setState({
-			contacts: JSON.parse(localStorage.getItem('contacts')) ?? initialContacts,
+			contacts: localData.length !== 0 ? localData : defaultContacts,
 		});
 	}
 
 	componentDidUpdate(_, prevState) {
-		if (
-			prevState.contacts.length !== 0 &&
-			prevState.contacts.length !== this.state.contacts.length
-		) {
+		if (prevState.contacts.length !== this.state.contacts.length) {
 			localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
 		}
 	}
