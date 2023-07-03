@@ -14,7 +14,8 @@ export class App extends React.Component {
 		const localData = JSON.parse(localStorage.getItem('contacts'));
 
 		this.setState({
-			contacts: localData ? localData : defaultContacts,
+			contacts:
+				localData && localData.length !== 0 ? localData : defaultContacts,
 		});
 	}
 
