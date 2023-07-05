@@ -1,32 +1,31 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { AddContact } from '../Phonebook';
 import { ContactsList } from '../Phonebook';
 
 import defaultContacts from '../Phonebook/defaultContacts.json';
 import css from './App.module.css';
 
-export class App extends React.Component {
-	state = {
-		contacts: [],
-	};
+export const App = () => {
+	const [contacts, setContacts] = useState([]);
+	const [justLoaded, setJustLoaded] = useState(true);
 
-	componentDidMount() {
-		const localData = JSON.parse(localStorage.getItem('contacts'));
+	const localData = JSON.parse(localStorage.getItem('contacts'));
 
-		this.setState({
-			contacts:
-				localData && localData.length !== 0 ? localData : defaultContacts,
-		});
-	}
+	useEffect(() => {
+		if (!justLoaded) return;
 
-	componentDidUpdate(_, prevState) {
-		if (prevState.contacts.length !== this.state.contacts.length) {
-			localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-		}
-	}
+		setContacts(
+			localData && localData.length !== 0 ? localData : defaultContacts
+		);
+	}, [justLoaded, localData]);
 
-	onAddContact = newContact => {
-		const duplicate = this.state.contacts.find(
+	useEffect(() => {
+		setJustLoaded(false);
+		localStorage.setItem('contacts', JSON.stringify(contacts));
+	}, [contacts]);
+
+	const onAddContact = newContact => {
+		const duplicate = contacts.find(
 			({ name }) => name.toLowerCase() === newContact.name.toLowerCase()
 		);
 
@@ -40,28 +39,17 @@ export class App extends React.Component {
 			id: `id-${(Math.random() * 1000).toString()}`,
 		};
 
-		this.setState({
-			contacts: [completeContact, ...this.state.contacts],
-		});
+		setContacts([completeContact, ...contacts]);
 	};
 
-	handleDelete = idToBeDeleted => {
-		this.setState({
-			contacts: this.state.contacts.filter(
-				contact => contact.id !== idToBeDeleted
-			),
-		});
+	const handleDelete = idToBeDeleted => {
+		setContacts(contacts.filter(contact => contact.id !== idToBeDeleted));
 	};
 
-	render() {
-		return (
-			<section className={css.app__container}>
-				<AddContact onAddContact={this.onAddContact} />
-				<ContactsList
-					data={this.state.contacts}
-					handleDelete={this.handleDelete}
-				/>
-			</section>
-		);
-	}
-}
+	return (
+		<section className={css.app__container}>
+			<AddContact onAddContact={onAddContact} />
+			<ContactsList data={contacts} handleDelete={handleDelete} />
+		</section>
+	);
+};
