@@ -1,12 +1,15 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { getFilter } from 'redux/selectors';
+import { setFilter } from 'redux/filterSlice';
 import css from './ContactsList.module.css';
 
 export const ContactsList = ({ handleDelete, data }) => {
-	const [filter, setFilter] = useState('');
+	const dispatch = useDispatch();
+	const filter = useSelector(getFilter);
 
 	const handleInput = e => {
-		setFilter(e.target.value);
+		dispatch(setFilter(e.target.value));
 	};
 
 	return (

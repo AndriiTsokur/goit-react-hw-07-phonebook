@@ -1,4 +1,7 @@
-import { useEffect, useState } from 'react';
+import { nanoid } from '@reduxjs/toolkit';
+import { useDispatch, useSelector } from 'react-redux';
+import { getContacts } from 'redux/selectors';
+import { addNewContact, deleteContact, setContacts } from 'redux/contactsSlice';
 import { AddContact } from '../Phonebook';
 import { ContactsList } from '../Phonebook';
 
@@ -6,23 +9,18 @@ import defaultContacts from '../Phonebook/defaultContacts.json';
 import css from './App.module.css';
 
 export const App = () => {
-	const [contacts, setContacts] = useState([]);
-	const [justLoaded, setJustLoaded] = useState(true);
+	const dispatch = useDispatch();
+	const contacts = useSelector(getContacts);
 
 	const localData = JSON.parse(localStorage.getItem('contacts'));
 
-	useEffect(() => {
-		if (!justLoaded) return;
-
-		setContacts(
-			localData && localData.length !== 0 ? localData : defaultContacts
+	if (contacts.length === 0) {
+		dispatch(
+			setContacts(
+				localData && localData.length !== 0 ? localData : defaultContacts
+			)
 		);
-	}, [justLoaded, localData]);
-
-	useEffect(() => {
-		setJustLoaded(false);
-		localStorage.setItem('contacts', JSON.stringify(contacts));
-	}, [contacts]);
+	}
 
 	const onAddContact = newContact => {
 		const duplicate = contacts.find(
@@ -35,15 +33,17 @@ export const App = () => {
 		}
 
 		const completeContact = {
+			id: `id-${nanoid()}`,
 			...newContact,
-			id: `id-${(Math.random() * 1000).toString()}`,
 		};
 
-		setContacts([completeContact, ...contacts]);
+		dispatch(addNewContact([completeContact, ...contacts]));
 	};
 
 	const handleDelete = idToBeDeleted => {
-		setContacts(contacts.filter(contact => contact.id !== idToBeDeleted));
+		dispatch(
+			deleteContact(contacts.filter(contact => contact.id !== idToBeDeleted))
+		);
 	};
 
 	return (
