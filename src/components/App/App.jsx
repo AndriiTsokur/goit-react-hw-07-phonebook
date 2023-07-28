@@ -1,26 +1,14 @@
 import { nanoid } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { getContacts } from 'redux/selectors';
-import { addNewContact, deleteContact, setContacts } from 'redux/contactsSlice';
+import { addNewContact, deleteContact } from 'redux/contactsSlice';
 import { AddContact } from '../Phonebook';
 import { ContactsList } from '../Phonebook';
-
-import defaultContacts from '../Phonebook/defaultContacts.json';
 import css from './App.module.css';
 
 export const App = () => {
 	const dispatch = useDispatch();
 	const contacts = useSelector(getContacts);
-
-	const localData = JSON.parse(localStorage.getItem('contacts'));
-
-	if (contacts.length === 0) {
-		dispatch(
-			setContacts(
-				localData && localData.length !== 0 ? localData : defaultContacts
-			)
-		);
-	}
 
 	const onAddContact = newContact => {
 		const duplicate = contacts.find(
