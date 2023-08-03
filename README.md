@@ -1,5 +1,5 @@
-# goit-react-hw-06
+# goit-react-hw-07
 
-GoIT Academy: React Section - Home Work No. 6 by Andrii Tsokur
+GoIT Academy: React Section - Home Work No. 7 by Andrii Tsokur
 
-"06 - Основи Redux. Бібліотека Redux Toolkit та React-Redux хуки"
+"07 - Асинхронний Redux. Селектори і бібліотека Reselect"
