@@ -2,14 +2,21 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFilter } from 'redux/selectors';
 import { setFilter } from 'redux/filterSlice';
+import { deleteContact } from 'redux/contactsSlice';
 import css from './ContactsList.module.css';
 
-export const ContactsList = ({ handleDelete, data }) => {
+export const ContactsList = ({ data }) => {
 	const dispatch = useDispatch();
 	const filter = useSelector(getFilter);
 
 	const handleInput = e => {
 		dispatch(setFilter(e.target.value));
+	};
+
+	const handleDelete = idToBeDeleted => {
+		dispatch(
+			deleteContact(data.filter(contact => contact.id !== idToBeDeleted))
+		);
 	};
 
 	return (
@@ -56,7 +63,6 @@ export const ContactsList = ({ handleDelete, data }) => {
 };
 
 ContactsList.propTypes = {
-	handleDelete: PropTypes.func.isRequired,
 	data: PropTypes.arrayOf(
 		PropTypes.shape({
 			id: PropTypes.string.isRequired,
