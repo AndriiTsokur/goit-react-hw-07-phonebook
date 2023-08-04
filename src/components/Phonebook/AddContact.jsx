@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { nanoid } from '@reduxjs/toolkit';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getContacts } from 'redux/selectors';
 import { addNewContact } from 'redux/contactsSlice';
-import PropTypes from 'prop-types';
 import css from './AddContact.module.css';
 
 const INITIAL_STATE = {
@@ -10,7 +10,8 @@ const INITIAL_STATE = {
 	number: '',
 };
 
-export const AddContact = ({ contacts }) => {
+export const AddContact = () => {
+	const contacts = useSelector(getContacts);
 	const dispatch = useDispatch();
 	const [state, setState] = useState({ ...INITIAL_STATE });
 
@@ -77,14 +78,4 @@ export const AddContact = ({ contacts }) => {
 			</form>
 		</div>
 	);
-};
-
-AddContact.propTypes = {
-	contacts: PropTypes.arrayOf(
-		PropTypes.shape({
-			id: PropTypes.string.isRequired,
-			name: PropTypes.string.isRequired,
-			number: PropTypes.string.isRequired,
-		}).isRequired
-	).isRequired,
 };

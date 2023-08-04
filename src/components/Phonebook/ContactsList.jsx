@@ -1,12 +1,12 @@
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFilter } from 'redux/selectors';
+import { getContacts, getFilter } from 'redux/selectors';
 import { setFilter } from 'redux/filterSlice';
 import { deleteContact } from 'redux/contactsSlice';
 import css from './ContactsList.module.css';
 
-export const ContactsList = ({ data }) => {
+export const ContactsList = () => {
 	const dispatch = useDispatch();
+	const data = useSelector(getContacts);
 	const filter = useSelector(getFilter);
 
 	const handleInput = e => {
@@ -60,14 +60,4 @@ export const ContactsList = ({ data }) => {
 			)}
 		</div>
 	);
-};
-
-ContactsList.propTypes = {
-	data: PropTypes.arrayOf(
-		PropTypes.shape({
-			id: PropTypes.string.isRequired,
-			name: PropTypes.string.isRequired,
-			number: PropTypes.string.isRequired,
-		}).isRequired
-	).isRequired,
 };
