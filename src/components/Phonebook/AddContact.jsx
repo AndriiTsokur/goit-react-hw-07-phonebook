@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import { nanoid } from '@reduxjs/toolkit';
+import { useDispatch } from 'react-redux';
+import { addNewContact } from 'redux/contactsSlice';
 import PropTypes from 'prop-types';
 import css from './AddContact.module.css';
 
@@ -7,11 +10,30 @@ const INITIAL_STATE = {
 	number: '',
 };
 
-export const AddContact = ({ onAddContact }) => {
+export const AddContact = ({ contacts }) => {
+	const dispatch = useDispatch();
 	const [state, setState] = useState({ ...INITIAL_STATE });
 
 	const handleInput = e => {
 		setState({ ...state, [e.target.name]: e.target.value });
+	};
+
+	const onAddContact = newContact => {
+		const duplicate = contacts.find(
+			({ name }) => name.toLowerCase() === newContact.name.toLowerCase()
+		);
+
+		if (duplicate) {
+			alert(`${duplicate.name} is already in contacts`);
+			return;
+		}
+
+		const completeContact = {
+			id: `id-${nanoid()}`,
+			...newContact,
+		};
+
+		dispatch(addNewContact([completeContact, ...contacts]));
 	};
 
 	const handleSubmit = e => {
@@ -58,5 +80,11 @@ export const AddContact = ({ onAddContact }) => {
 };
 
 AddContact.propTypes = {
-	onAddContact: PropTypes.func.isRequired,
+	contacts: PropTypes.arrayOf(
+		PropTypes.shape({
+			id: PropTypes.string.isRequired,
+			name: PropTypes.string.isRequired,
+			number: PropTypes.string.isRequired,
+		}).isRequired
+	).isRequired,
 };
