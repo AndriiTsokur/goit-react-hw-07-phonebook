@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { nanoid } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { getContacts } from 'redux/selectors';
-import { addNewContact } from 'redux/contactsSlice';
+import { addContactThunk } from 'redux/operations';
 import css from './AddContact.module.css';
 
 const INITIAL_STATE = {
@@ -29,12 +28,7 @@ export const AddContact = () => {
 			return;
 		}
 
-		const completeContact = {
-			id: `id-${nanoid()}`,
-			...newContact,
-		};
-
-		dispatch(addNewContact([completeContact, ...contacts]));
+		dispatch(addContactThunk(newContact));
 	};
 
 	const handleSubmit = e => {
